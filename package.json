@@ -6,7 +6,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "demo": "nx serve timer-demo"
+    "demo": "nx serve timer-demo",
+    "test:e2e": "npx nx e2e timer-demo-e2e --watch"
   },
   "private": true,
   "dependencies": {
