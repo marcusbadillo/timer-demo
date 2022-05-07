@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "timer-demo": "apps/timer-demo",
-    "timer-demo-e2e": "apps/timer-demo-e2e"
+    "timer-demo-e2e": "apps/timer-demo-e2e",
+    "ui": "libs/ui"
   }
 }

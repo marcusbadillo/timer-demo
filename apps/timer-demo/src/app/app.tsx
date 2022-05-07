@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Timer } from '@spreetail/ui';
 
 const StyledApp = styled.div`
   // Your style here
@@ -7,7 +8,7 @@ const StyledApp = styled.div`
 export function App() {
   return (
     <StyledApp>
-      <h1>Welcome timer-demo</h1>
+      <Timer />
     </StyledApp>
   );
 }
