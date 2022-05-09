@@ -6,7 +6,7 @@ const StyledTimer = styled.div`
   display: flex;
   flex-flow: column nowrap;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width: 40%;
+  width: 100%;
   max-width: 400px;
   padding: 2px 16px;
   font-family: 'Roboto', sans-serif;
@@ -14,6 +14,11 @@ const StyledTimer = styled.div`
   border-radius: 30px;
   padding: 20px;
   text-align: center;
+  @media (min-width: 768px) {
+    width: 40%;
+    max-width: none;
+    margin: 0 auto;
+  }
   .timer-heading {
     text-transform: uppercase;
     font-weight: 900;
