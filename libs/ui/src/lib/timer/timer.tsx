@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 /* eslint-disable-next-line */
-export interface TimerProps {}
 
 const StyledTimer = styled.div`
   display: flex;
@@ -22,25 +21,107 @@ const StyledTimer = styled.div`
   }
 `;
 
-// Timer commponet
-// 	updates every 500s
-// 	start button
-// 	stop button
-// 	reset button
-// 	starting val input
+interface InputTime {
+  hide: boolean;
+}
+const StyledInputTime = styled.div<InputTime>`
+  display: ${({ hide }) => (hide ? 'none' : 'block')};
+`;
 
-export function Timer(props: TimerProps) {
-  const [value, SetValue] = useState(0);
+const INTERVAL_TIME = 500;
+
+export function Timer() {
+  const [seconds, setSeconds] = useState<number>(0);
+  const [inputVal, setInputVal] = useState<number>(0);
+  const [id, setId] = useState<null | NodeJS.Timeout>(null);
+  // const [active, setActive] = useState<boolean>(true);
+  const [hide, setHide] = useState<boolean>(true);
+
+  // const setTimer = (input: number) => {
+  //   console.log(input);
+  //   setSeconds(input);
+  // };
+
+  const start = () => {
+    createTimer();
+  };
+
+  const stop = useCallback(() => {
+    console.log('stop ID:', id);
+
+    if (id !== null) {
+      clearInterval(id);
+    }
+    setId(null);
+    // setSeconds(0);
+    // setActive(false);
+  }, [id, setId]);
+
+  const reset = () => {
+    stop();
+    setSeconds(0);
+    createTimer();
+  };
+
+  const inputTime = () => {
+    stop();
+    setHide(false); // show input
+  };
+
+  const createTimer = () => {
+    const intervalId = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, INTERVAL_TIME);
+
+    console.log('intervalId', intervalId);
+
+    setId(intervalId);
+  };
+
+  useEffect(() => {
+    if (id === null) {
+      createTimer();
+    }
+    return () => stop();
+  }, []);
 
   return (
     <StyledTimer className="timer">
-      <h1 className="timer-heading">Timer</h1>
-      <div className="timer-start">
-        <input type="text" value="" />
-      </div>
+      <h1 className="timer--heading">Timer</h1>
+      <StyledInputTime hide={hide}>
+        <label htmlFor="input">
+          Input time (seconds)
+          <input
+            id="input"
+            type="text"
+            value={inputVal}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (id !== null) {
+                stop();
+              }
+
+              setInputVal(parseInt(e.target.value));
+            }}
+          />
+        </label>
+      </StyledInputTime>
+      <div className="timer--time">{seconds}</div>
       <div>
-        <button className="timer-reset">reset</button>
-        <button className="timer-stop">Stop</button>
+        <button className="btn timer-start" onClick={start}>
+          Start
+        </button>
+        <button className="btn timer-reset" onClick={reset}>
+          Reset
+        </button>
+        <button className="btn timer-stop" onClick={stop}>
+          Stop
+        </button>
+        <button
+          className={`btn timer-input-time ${hide ? 'hide' : 'show'}`}
+          onClick={inputTime}
+        >
+          Input Time
+        </button>
       </div>
     </StyledTimer>
   );
