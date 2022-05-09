@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
-/* eslint-disable-next-line */
+import { BtnTimer } from '@spreetail/ui';
 
 const StyledTimer = styled.div`
   display: flex;
@@ -27,14 +26,6 @@ interface InputTime {
 const StyledInputTime = styled.div<InputTime>`
   display: ${({ hide }) => (hide ? 'none' : 'block')};
 `;
-interface BtnTimer {
-  hide?: boolean;
-}
-
-const BtnTimer = styled.button<BtnTimer>`
-  display: ${({ hide }) => (hide ? 'none' : 'block')};
-`;
-
 const INTERVAL_TIME = 500;
 
 export function Timer() {
