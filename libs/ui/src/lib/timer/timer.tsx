@@ -27,22 +27,24 @@ interface InputTime {
 const StyledInputTime = styled.div<InputTime>`
   display: ${({ hide }) => (hide ? 'none' : 'block')};
 `;
+interface BtnTimer {
+  hide?: boolean;
+}
+
+const BtnTimer = styled.button<BtnTimer>`
+  display: ${({ hide }) => (hide ? 'none' : 'block')};
+`;
 
 const INTERVAL_TIME = 500;
 
 export function Timer() {
+  const [id, setId] = useState<null | NodeJS.Timeout>(null);
   const [seconds, setSeconds] = useState<number>(0);
   const [inputVal, setInputVal] = useState<number>(0);
-  const [id, setId] = useState<null | NodeJS.Timeout>(null);
-  // const [active, setActive] = useState<boolean>(true);
   const [hide, setHide] = useState<boolean>(true);
 
-  // const setTimer = (input: number) => {
-  //   console.log(input);
-  //   setSeconds(input);
-  // };
-
   const start = () => {
+    if (id) return;
     createTimer();
   };
 
@@ -53,8 +55,6 @@ export function Timer() {
       clearInterval(id);
     }
     setId(null);
-    // setSeconds(0);
-    // setActive(false);
   }, [id, setId]);
 
   const reset = () => {
@@ -64,6 +64,7 @@ export function Timer() {
   };
 
   const inputTime = () => {
+    setInputVal(0);
     stop();
     setHide(false); // show input
   };
@@ -76,6 +77,18 @@ export function Timer() {
     console.log('intervalId', intervalId);
 
     setId(intervalId);
+  };
+
+  const handleInputChange = (input: number) => {
+    if (id !== null) stop();
+    if (Number.isNaN(input)) return;
+    setInputVal(input);
+  };
+
+  const submit = () => {
+    setSeconds(inputVal);
+    start();
+    setHide(true);
   };
 
   useEffect(() => {
@@ -95,33 +108,33 @@ export function Timer() {
             id="input"
             type="text"
             value={inputVal}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              if (id !== null) {
-                stop();
-              }
-
-              setInputVal(parseInt(e.target.value));
-            }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(parseInt(e.target.value))
+            }
           />
+          <BtnTimer className="btn timer-submit" onClick={submit}>
+            Submit
+          </BtnTimer>
         </label>
       </StyledInputTime>
       <div className="timer--time">{seconds}</div>
       <div>
-        <button className="btn timer-start" onClick={start}>
+        <BtnTimer className="btn timer-start" onClick={start}>
           Start
-        </button>
-        <button className="btn timer-reset" onClick={reset}>
+        </BtnTimer>
+        <BtnTimer className="btn timer-reset" hide={!hide} onClick={reset}>
           Reset
-        </button>
-        <button className="btn timer-stop" onClick={stop}>
+        </BtnTimer>
+        <BtnTimer className="btn timer-stop" onClick={stop}>
           Stop
-        </button>
-        <button
-          className={`btn timer-input-time ${hide ? 'hide' : 'show'}`}
+        </BtnTimer>
+        <BtnTimer
+          className={`btn timer-input-time`}
+          hide={!hide}
           onClick={inputTime}
         >
           Input Time
-        </button>
+        </BtnTimer>
       </div>
     </StyledTimer>
   );
