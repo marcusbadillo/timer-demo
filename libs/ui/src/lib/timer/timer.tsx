@@ -20,10 +20,10 @@ const StyledTimer = styled.div`
   }
 `;
 
-interface InputTime {
+interface InputRow {
   hide: boolean;
 }
-const StyledInputTime = styled.div<InputTime>`
+const StyledInputRow = styled.div<InputRow>`
   display: ${({ hide }) => (hide ? 'none' : 'block')};
 `;
 const INTERVAL_TIME = 500;
@@ -92,7 +92,7 @@ export function Timer() {
   return (
     <StyledTimer className="timer">
       <h1 className="timer--heading">Timer</h1>
-      <StyledInputTime hide={hide}>
+      <StyledInputRow hide={hide}>
         <label htmlFor="input">
           Input time (seconds)
           <input
@@ -107,7 +107,7 @@ export function Timer() {
             Submit
           </BtnTimer>
         </label>
-      </StyledInputTime>
+      </StyledInputRow>
       <div className="timer--time">{seconds}</div>
       <div>
         <BtnTimer className="btn timer-start" onClick={start}>
