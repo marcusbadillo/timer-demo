@@ -40,11 +40,7 @@ export function Timer() {
   };
 
   const stop = useCallback(() => {
-    console.log('stop ID:', id);
-
-    if (id !== null) {
-      clearInterval(id);
-    }
+    if (id !== null) clearInterval(id);
     setId(null);
   }, [id, setId]);
 
@@ -57,16 +53,13 @@ export function Timer() {
   const inputTime = () => {
     setInputVal(0);
     stop();
-    setHide(false); // show input
+    setHide(false);
   };
 
   const createTimer = () => {
     const intervalId = setInterval(() => {
       setSeconds((s) => s + 1);
     }, INTERVAL_TIME);
-
-    console.log('intervalId', intervalId);
-
     setId(intervalId);
   };
 
