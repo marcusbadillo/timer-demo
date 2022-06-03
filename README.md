@@ -108,3 +108,7 @@ Unit test
 ```
 npm run test
 ```
+
+## Nx Tutorial from Egghead
+
+<https://egghead.io/lessons/react-create-react-feature-libraries-in-an-nx-workspace>
